@@ -1,13 +1,12 @@
 package org.lift.commands;
 
-import java.sql.SQLException;
 import org.lift.models.User;
 import org.lift.repositories.UserRepository;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "adduser", description = "Add a new user to the database.")
-public class AddUser implements Runnable {
+@Command(name = "deleteuser", description = "Delete a user from the database.")
+public class DeleteUser implements Runnable {
 
   @Option(
       names = {"-n", "--name"},
@@ -22,15 +21,14 @@ public class AddUser implements Runnable {
     UserRepository userRepository = new UserRepository();
 
     try {
-      userRepository.create(user);
-      System.out.println("User added: " + user);
-    } catch (SQLException e) {
-      if (e.getErrorCode() == 1062) {
-        System.err.println("Error: User already exists.");
-        return;
+      boolean success = userRepository.delete(user);
+      if (success) {
+        System.out.println("User deleted: " + user);
       } else {
-        System.err.println("Error " + e.getErrorCode() + "adding user: " + e.getMessage());
+        System.err.println("Error: User does not exist.");
       }
+    } catch (Exception e) {
+      System.err.println("Error deleting user: " + e.getMessage());
     }
   }
 }

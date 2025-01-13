@@ -9,11 +9,11 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 
     private static final Dotenv dotenv = Dotenv.configure()
-            .directory(System.getProperty("user.dir")) // Ensure correct directory
-            .filename("credentials.env")               // Use your specific file name
+            .directory(System.getProperty("user.dir")) 
+            .filename("credentials.env")               
             .load();
 
-    private static final String URL = "jdbc:mysql://localhost:3306/lift_tracker";
+    private static final String URL = "jdbc:mysql://localhost:3306/lift_db";
     private static final String USER = dotenv.get("DB_USER");
     private static final String PASSWORD = dotenv.get("DB_PASSWORD");
 
